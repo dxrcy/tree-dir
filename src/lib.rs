@@ -34,10 +34,17 @@ fn branch(path: &str, layers: Vec<&str>) -> String {
             // Format lines from layers
             let lines = layers.join("") + if i + 1 < dir.len() { FORK } else { BEND };
 
+            // Get filename
+            let name = file.file_name();
+            let name = name.to_str().expect("Could not read file name");
+            if name == "desktop.ini" {
+                continue;
+            }
+
             // Print name, with trailing slash if is directory
             output.push_str(&format!(
                 "{lines}{name}{slash}\n",
-                name = file.file_name().to_str().expect("Could not read file name"),
+                name = name,
                 slash = if is_dir { "/" } else { "" },
             ));
 
